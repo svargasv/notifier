@@ -1,3 +1,1 @@
-The Misfit of Demon King Academy
-Rent-a-Girlfriend
-The God of High School
+{"the misfit of demon king academy": 1, "rent-a-girlfriend": 1, "the god of high school": 1, "black clover": 1}

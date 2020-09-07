@@ -8,10 +8,14 @@ webhook='https://maker.ifttt.com/trigger/nuevo_cap/with/key/mmgAHPsC2HCTjn4T204e
 def createDict():
     animes=dict()
     with open('season.txt','r') as file:
-        lines = file.readlines()
-        for line in  lines:
-            animes.update({line.rstrip().lower():0})
+        animes = json.load(file)
     return animes
+
+
+def updateDict(animeDict):
+    with open('season.txt','w') as output:
+        json.dump(animeDict,output)
+        pass
 
 def checkNew(animeDict):
     crunchyroll = feedparser.parse('https://www.crunchyroll.com/rss/anime?lang=esLA')
@@ -27,13 +31,12 @@ def checkNew(animeDict):
             notify(titulo)
         if titulo not in content and animeDict[titulo]==1:
             animeDict[titulo]=0
-            
+    updateDict(animeDict)      
 
 
 
-     
 def notify(title):
-    data = {'value1':title}  # Dict de datos que se envian
+    data = {'value1':title.capitalize()}  # Dict de datos que se envian
     try:
         print('Entre a notificar')
         r = requests.get(url=webhook, params=data)
@@ -45,9 +48,9 @@ def notify(title):
 if __name__ == "__main__":
     animeDict=createDict()
     checkNew(animeDict)
-    # while True:
-    #     checkNew(animeDict)
-    #     time.sleep(50)
+    while True:
+        checkNew(animeDict)
+        time.sleep(50)
         
 
     
